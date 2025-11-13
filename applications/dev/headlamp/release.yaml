@@ -20,10 +20,28 @@ spec:
     service:
       type: ClusterIP
       port: 80
-    # Enable plugin manager with Flux plugin
-    pluginsManager:
-      enabled: true
-      configContent: |
-        plugins:
-          flux:
-            url: https://github.com/headlamp-k8s/plugins/releases/download/flux-0.5.0/headlamp-k8s-flux-0.5.0.tar.gz
+    # Enable Flux plugin via init container
+    # (Plugin Manager only supports ArtifactHub sources, Flux plugin is on GitHub releases)
+    config:
+      pluginsDir: "/headlamp-plugins"
+    volumes:
+      - name: plugins
+        emptyDir: {}
+    volumeMounts:
+      - name: plugins
+        mountPath: /headlamp-plugins
+    initContainers:
+      - name: flux-plugin
+        image: busybox:latest
+        command:
+          - sh
+          - -c
+          - |
+            mkdir -p /headlamp-plugins
+            cd /headlamp-plugins
+            wget -q https://github.com/headlamp-k8s/plugins/releases/download/flux-0.5.0/headlamp-k8s-flux-0.5.0.tar.gz
+            tar -xzf headlamp-k8s-flux-0.5.0.tar.gz
+            rm headlamp-k8s-flux-0.5.0.tar.gz
+        volumeMounts:
+          - name: plugins
+            mountPath: /headlamp-plugins
