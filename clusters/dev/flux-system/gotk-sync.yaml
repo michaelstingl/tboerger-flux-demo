@@ -11,7 +11,7 @@ spec:
     branch: master
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/tboerger/flux-demo
+  url: ssh://git@github.com/michaelstingl/tboerger-flux-demo
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
