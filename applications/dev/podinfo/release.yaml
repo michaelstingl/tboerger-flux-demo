@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: ${podinfoRepo}
-      tag: 6.9.2 # {"$imagepolicy": "default:podinfo:tag"}
+      tag: 6.9.4 # {"$imagepolicy": "default:podinfo:tag"}
     service:
       enabled: true
       type: NodePort
